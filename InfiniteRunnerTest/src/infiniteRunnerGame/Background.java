@@ -69,23 +69,23 @@ public class Background extends JPanel implements ActionListener, Runnable{
     public void paint(Graphics graphics){
 
 
-        if(playScreen == true){
+        if(playScreen){
             super.paint(graphics);
             Graphics2D graphics2D = (Graphics2D) graphics;
             graphics2D.drawImage(playScreenImg, 0, 0, null);
             graphics2D.drawImage(playButton,630,140,null);
 
         }
-        if(charSelection==true){
+        if(charSelection){
             super.paint(graphics);
             Graphics2D graphics2D = (Graphics2D) graphics;
             graphics2D.drawImage(charBackground, 0, 0, null);
 
         }
-        if(gameOn == true) {
+        if(gameOn) {
             super.paint(graphics);
             Graphics2D graphics2D = (Graphics2D) graphics;
-            if (runner.characterDY == -1 && jump == false) {
+            if (runner.characterDY == -1 && !jump) {
                 jump = true;
                 animator = new Thread(this);
                 animator.start();
@@ -116,7 +116,7 @@ public class Background extends JPanel implements ActionListener, Runnable{
 
             if (log2.getX() < -2000) {
 
-                log2.enemyX = (int)(Math.random() * 1000);
+                log2.enemyX = 3500;
             }
 
             log.scrollMove();
@@ -149,14 +149,14 @@ public class Background extends JPanel implements ActionListener, Runnable{
             graphics2D.drawString(Integer.toString(highScore), 50, 50);
         }
 
-       if(gameEnd == true){
+       if(gameEnd){
             super.paint(graphics);
             Graphics2D graphics2D = (Graphics2D) graphics;
             graphics2D.drawImage(clearBackground, 0, 0, null);
             graphics2D.drawImage(tryAgainButton,600,250,null);
             graphics2D.setFont(new Font("Dialog", Font.BOLD, 50));
             graphics2D.drawString("You lose!" , 650, 100);
-            graphics2D.drawString("High score: " + Integer.toString(highScore), 600, 200);
+            graphics2D.drawString("High score: " + highScore, 600, 200);
 
 
 
@@ -179,7 +179,7 @@ public class Background extends JPanel implements ActionListener, Runnable{
         long sleep;
         beforeTime = System.currentTimeMillis();
 
-        while(jumpFinish == false){
+        while(!jumpFinish){
             yCycle();
             timeDiff = System.currentTimeMillis()-beforeTime;
             sleep = 8-timeDiff;
@@ -199,14 +199,14 @@ public class Background extends JPanel implements ActionListener, Runnable{
     }
 
     public void yCycle(){
-        if (jumpPeak==false){
+        if (!jumpPeak){
             yPos-=3;
         }
         if(yPos <= 50){
             jumpPeak = true;
         }
 
-        if(jumpPeak==true && yPos <= 200){
+        if(jumpPeak && yPos <= 200){
             yPos+=2;
             if(yPos==200){
                 jumpFinish=true;
@@ -232,26 +232,26 @@ public class Background extends JPanel implements ActionListener, Runnable{
         public void mouseClicked(MouseEvent e) {
             int  x1 = e.getX();
             int  y1 = e.getY();
-            if((x1>= 648 && x1<=961)&&(y1>=148 && y1<=258) && playScreen==true){
+            if((x1>= 648 && x1<=961)&&(y1>=148 && y1<=258) && playScreen){
                 repaint();
                 playScreen = false;
                 charSelection = true;
             }
 
-            if(((x1>=159 && x1<=499)&&(y1>=55 && y1<=462))&&charSelection==true){
+            if(((x1>=159 && x1<=499)&&(y1>=55 && y1<=462))&& charSelection){
                 repaint();
                 charSelection=false;
                 gameOn=true;
                 globalVairables.characterSwitch=1;
             }
-            if(((x1>=999&&x1<=1339)&&(y1>=55&&y1<=462))&&charSelection==true){
+            if(((x1>=999&&x1<=1339)&&(y1>=55&&y1<=462))&& charSelection){
                 repaint();
                 charSelection=false;
                 gameOn=true;
                 globalVairables.characterSwitch=2;
             }
 
-            if((x1>= 619 && x1<=931)&&(y1>=254 && y1<=368) &&gameEnd==true){
+            if((x1>= 619 && x1<=931)&&(y1>=254 && y1<=368) && gameEnd){
                 repaint();
                 highScore=0;
                 highScoretwo=0;
