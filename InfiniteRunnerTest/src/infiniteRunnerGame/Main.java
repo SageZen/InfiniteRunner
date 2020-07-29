@@ -12,16 +12,11 @@ public class Main {
         JPanel playScreen = new JPanel();
 
         frame.add(new Background());
-
-
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1500, 500);
         frame.setResizable(false);
         frame.setTitle("test");
-//        frame.pack();
         frame.setVisible(true);
-
-
     }
 
     public static void main(String[] args) {

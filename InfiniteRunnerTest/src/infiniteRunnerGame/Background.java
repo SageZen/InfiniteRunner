@@ -15,6 +15,7 @@ public class Background extends JPanel implements ActionListener, Runnable{
     Image background2;
     Image clearBackground;
     Image playScreenImg;
+    Image charBackground;
     Image playButton;
     Image tryAgainButton;
     Timer time;
@@ -25,6 +26,7 @@ public class Background extends JPanel implements ActionListener, Runnable{
     boolean jumpFinish = false;
     boolean jumpPeak = false;
     boolean playScreen = true;
+    boolean charSelection = false;
     boolean gameOn = false;
     boolean gameEnd = false;
 
@@ -48,12 +50,14 @@ public class Background extends JPanel implements ActionListener, Runnable{
         ImageIcon background1Icon1 = new ImageIcon("D:\\SteppingStones2020\\InfiniteRunnerTest\\src\\infiniteRunnerGame\\images\\background2.png");
         ImageIcon background1Icon2 = new ImageIcon("D:\\SteppingStones2020\\InfiniteRunnerTest\\src\\infiniteRunnerGame\\images\\background1.png");
         ImageIcon clearBackgroundIcon = new ImageIcon("D:\\SteppingStones2020\\InfiniteRunnerTest\\src\\infiniteRunnerGame\\images\\clearbackground.png");
+        ImageIcon characterSelectionBackgroundIcon = new ImageIcon("D:\\SteppingStones2020\\InfiniteRunnerTest\\src\\infiniteRunnerGame\\images\\characrerSelectionBackGround.png");
         ImageIcon playButtonIcon = new ImageIcon("D:\\SteppingStones2020\\InfiniteRunnerTest\\src\\infiniteRunnerGame\\images\\playButton.png");
         ImageIcon tryAgainIcon = new ImageIcon("D:\\SteppingStones2020\\InfiniteRunnerTest\\src\\infiniteRunnerGame\\images\\tryAgainButton.png");
 
         clearBackground = clearBackgroundIcon.getImage();
         background1 = background1Icon1.getImage();
         background2= background1Icon2.getImage();
+        charBackground = characterSelectionBackgroundIcon.getImage();
         playScreenImg = playScreenIcon.getImage();
         playButton = playButtonIcon.getImage();
         tryAgainButton = tryAgainIcon.getImage();
@@ -69,7 +73,13 @@ public class Background extends JPanel implements ActionListener, Runnable{
             super.paint(graphics);
             Graphics2D graphics2D = (Graphics2D) graphics;
             graphics2D.drawImage(playScreenImg, 0, 0, null);
-            graphics2D.drawImage(playButton,900,140,null);
+            graphics2D.drawImage(playButton,630,140,null);
+
+        }
+        if(charSelection==true){
+            super.paint(graphics);
+            Graphics2D graphics2D = (Graphics2D) graphics;
+            graphics2D.drawImage(charBackground, 0, 0, null);
 
         }
         if(gameOn == true) {
@@ -83,7 +93,7 @@ public class Background extends JPanel implements ActionListener, Runnable{
 
             //infinite background
             for (int i = 1; i < 500; i += 2) {
-                graphics2D.drawImage(background2, (i * 1485) - runner.backgroundXTwo, 0, null);
+                graphics2D.drawImage(background2, (i * 1485) - runner.backgroundXTwo, 0, null); // please help me :( i need help :(
             }
             for (int i = 0; i < 500; i += 2) {
                 graphics2D.drawImage(background1, (i * 1485) - runner.backgroundXTwo, 0, null);
@@ -105,23 +115,31 @@ public class Background extends JPanel implements ActionListener, Runnable{
             }
 
             if (log2.getX() < -2000) {
-                log2.enemyX = 37500;
+
+                log2.enemyX = (int)(Math.random() * 1000);
             }
 
+            log.scrollMove();
+            log2.scrollMove();
             graphics2D.drawImage(log.getLogEnemy(), log.enemyX, log.getY(), null);
             graphics2D.drawImage(log2.getLogEnemy(), log2.enemyX, log.getY(), null);
             graphics2D.drawImage(log2.getLogEnemy(), log2.enemyX+150, log.getY(), null);
-            log.scrollMove();
-            log2.scrollMove();
+
 
 
 
 
             //player
+//            if(highScore >100){
+//                globalVairables.gameSpeed = 10;
+//            }
             runner.scrollMove();
 
-            graphics2D.drawImage(runner.getJacksonOneImage(), 50, yPos, null);
-
+            if(globalVairables.characterSwitch==1) {
+                graphics2D.drawImage(runner.getAmyOneImage(), 50, yPos, null);
+            }else if(globalVairables.characterSwitch==2){
+                graphics2D.drawImage(runner.getJacksonOneImage(), 50, yPos, null);
+            }
 
             highScoretwo++;
             if (highScoretwo % 15 == 0) {
@@ -214,10 +232,23 @@ public class Background extends JPanel implements ActionListener, Runnable{
         public void mouseClicked(MouseEvent e) {
             int  x1 = e.getX();
             int  y1 = e.getY();
-            if((x1>= 918 && x1<=1231)&&(y1>=148 && y1<=258) && playScreen==true){
+            if((x1>= 648 && x1<=961)&&(y1>=148 && y1<=258) && playScreen==true){
                 repaint();
                 playScreen = false;
+                charSelection = true;
+            }
+
+            if(((x1>=159 && x1<=499)&&(y1>=55 && y1<=462))&&charSelection==true){
+                repaint();
+                charSelection=false;
                 gameOn=true;
+                globalVairables.characterSwitch=1;
+            }
+            if(((x1>=999&&x1<=1339)&&(y1>=55&&y1<=462))&&charSelection==true){
+                repaint();
+                charSelection=false;
+                gameOn=true;
+                globalVairables.characterSwitch=2;
             }
 
             if((x1>= 619 && x1<=931)&&(y1>=254 && y1<=368) &&gameEnd==true){

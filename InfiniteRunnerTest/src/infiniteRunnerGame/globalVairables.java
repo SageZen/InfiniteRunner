@@ -6,6 +6,8 @@ class globalVairables {
     public static int backgroundShift = 1;
     public static int backgroundShift2 = 2;
     public static int test = 0;
+    public static int gameSpeed = 5;
+    public static int characterSwitch = 0;
 
 
 }

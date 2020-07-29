@@ -18,7 +18,7 @@ public class Enemies {
         enemyDX =0;
         enemyDY = 0;
         enemyY = 200;
-        enemyX = 1000;
+        enemyX = 1500;
     }
 
     public Image getLogEnemy(){

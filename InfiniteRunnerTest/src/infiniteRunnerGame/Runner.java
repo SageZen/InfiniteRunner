@@ -41,7 +41,7 @@ public class Runner {
 
     }
     public void scrollMove(){
-        characterDX = 3;
+        characterDX = globalVairables.gameSpeed;
         }
     public int getX(){
         return characterX;
@@ -61,6 +61,9 @@ public class Runner {
 
         if(key== KeyEvent.VK_SPACE){
             characterDY = -1;
+        }
+        if(key==KeyEvent.VK_S){
+            //
         }
     }
 
