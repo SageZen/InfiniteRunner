@@ -104,6 +104,13 @@ public class Background extends JPanel implements ActionListener, Runnable{
         }
         if(gameOn) {
 
+            if(highScore%45==0){
+                System.out.println(globalVairables.randomizer);
+                globalVairables.randomizer = (int) (Math.random()*4);
+                if(globalVairables.randomizer ==0){
+                    globalVairables.randomizer=1;
+                }
+            }
 
             if(globalVairables.randomizer ==1){
                 spawn1 = 0;
@@ -183,28 +190,28 @@ public class Background extends JPanel implements ActionListener, Runnable{
                 gameOn=false;
                 gameEnd=true;
 
-                log.enemyX = 1500+ spawn1;
-                log2.enemyX += 1500+spawn2;
-                log3.enemyX += 1500+spawn3;
-                log4.enemyX += 1500+spawn4;
+                log.enemyX = respawn1;
+                log2.enemyX = respawn2;
+                log3.enemyX = respawn3;
+                log4.enemyX = respawn4;
             }
 
             if((log2.enemyX+spawn2 == 50) && (yPos == log2.getY() || yPos > 75)) {
                 gameOn=false;
                 gameEnd=true;
-                log.enemyX = 1500+ spawn1;
-                log2.enemyX += 1500+spawn2;
-                log3.enemyX += 1500+spawn3;
-                log4.enemyX += 1500+spawn4;
+                log.enemyX = respawn1;
+                log2.enemyX = respawn2;
+                log3.enemyX = respawn3;
+                log4.enemyX = respawn4;
             }
 
             if((log3.enemyX+spawn3 == 50)&(!globalVairables.crouch)){
                 gameOn=false;
                 gameEnd=true;
-                log.enemyX = 1500+ spawn1;
-                log2.enemyX += 1500+spawn2;
-                log3.enemyX += 1500+spawn3;
-                log4.enemyX += 1500+spawn4;
+                log.enemyX = respawn1;
+                log2.enemyX = respawn2;
+                log3.enemyX = respawn3;
+                log4.enemyX = respawn4;
             }
 //            if((log4.enemyX+spawn4 == 50)&(!globalVairables.crouch)){
 //                gameOn=false;
@@ -271,13 +278,7 @@ public class Background extends JPanel implements ActionListener, Runnable{
             if (highScoretwo % 15 == 0) {
                 highScore += 1;
             }
-            if(highScore%45==0){
-                System.out.println(globalVairables.randomizer);
-                globalVairables.randomizer = (int) (Math.random()*4);
-                if(globalVairables.randomizer ==0){
-                    globalVairables.randomizer=1;
-                }
-            }
+
 
             graphics2D.setFont(new Font("Dialog", Font.BOLD, 50));
             graphics2D.drawString(Integer.toString(highScore), 50, 50);
