@@ -5,11 +5,14 @@ import java.awt.*;
 import java.awt.event.*;
 
 
+
 public class Background extends JPanel implements ActionListener, Runnable{
 
     Runner runner;
     Enemies log;
     Enemies log2;
+    Enemies log3;
+    Enemies log4;
 
     Image background1;
     Image background2;
@@ -22,9 +25,7 @@ public class Background extends JPanel implements ActionListener, Runnable{
 
     Thread animator;
 
-    boolean jump = false;
-    boolean jumpFinish = false;
-    boolean jumpPeak = false;
+
     boolean playScreen = true;
     boolean charSelection = false;
     boolean gameOn = false;
@@ -35,10 +36,29 @@ public class Background extends JPanel implements ActionListener, Runnable{
     int highScoretwo = 0;
     int playerSwitch = 0;
 
+    int spawn1 = 0;
+    int spawn2 = 750;
+    int spawn3 =1400;
+    int spawn4 = 2400;
+    int respawn1 = 1500;
+    int respawn2 = 1500;
+    int respawn3 =1500;
+    int respawn4 = 500;
+    int delete1 = 2000;
+    int delete2 = 2000;
+    int delete3 =2000;
+    int delete4 = 3000;
+
+    int reload = 0;
+
+
+
     public Background(){
         runner = new Runner();
         log = new Enemies();
         log2 = new Enemies();
+        log3 = new Enemies();
+        log4 = new Enemies();
 
         addKeyListener(new AL());
         addMouseListener(new ML());
@@ -46,13 +66,13 @@ public class Background extends JPanel implements ActionListener, Runnable{
         setFocusable(true);
         setLayout(new GridLayout(3, 5));
 
-        ImageIcon playScreenIcon = new ImageIcon("D:\\SteppingStones2020\\InfiniteRunnerTest\\src\\infiniteRunnerGame\\images\\playScreen.png");
-        ImageIcon background1Icon1 = new ImageIcon("D:\\SteppingStones2020\\InfiniteRunnerTest\\src\\infiniteRunnerGame\\images\\background2.png");
-        ImageIcon background1Icon2 = new ImageIcon("D:\\SteppingStones2020\\InfiniteRunnerTest\\src\\infiniteRunnerGame\\images\\background1.png");
-        ImageIcon clearBackgroundIcon = new ImageIcon("D:\\SteppingStones2020\\InfiniteRunnerTest\\src\\infiniteRunnerGame\\images\\clearbackground.png");
-        ImageIcon characterSelectionBackgroundIcon = new ImageIcon("D:\\SteppingStones2020\\InfiniteRunnerTest\\src\\infiniteRunnerGame\\images\\characrerSelectionBackGround.png");
-        ImageIcon playButtonIcon = new ImageIcon("D:\\SteppingStones2020\\InfiniteRunnerTest\\src\\infiniteRunnerGame\\images\\playButton.png");
-        ImageIcon tryAgainIcon = new ImageIcon("D:\\SteppingStones2020\\InfiniteRunnerTest\\src\\infiniteRunnerGame\\images\\tryAgainButton.png");
+        ImageIcon playScreenIcon = new ImageIcon(globalVairables.workingDir+"\\playScreen.png");
+        ImageIcon background1Icon1 = new ImageIcon(globalVairables.workingDir+"\\background2.png");
+        ImageIcon background1Icon2 = new ImageIcon(globalVairables.workingDir+"\\background1.png");
+        ImageIcon clearBackgroundIcon = new ImageIcon(globalVairables.workingDir+"\\clearbackground.png");
+        ImageIcon characterSelectionBackgroundIcon = new ImageIcon(globalVairables.workingDir+"\\characrerSelectionBackGround.png");
+        ImageIcon playButtonIcon = new ImageIcon(globalVairables.workingDir+"\\playButton.png");
+        ImageIcon tryAgainIcon = new ImageIcon(globalVairables.workingDir+"\\tryAgainButton.png");
 
         clearBackground = clearBackgroundIcon.getImage();
         background1 = background1Icon1.getImage();
@@ -83,10 +103,69 @@ public class Background extends JPanel implements ActionListener, Runnable{
 
         }
         if(gameOn) {
+
+
+            if(globalVairables.randomizer ==1){
+                spawn1 = 0;
+                spawn2 = 750;
+                spawn3 =1400;
+//                spawn4 = 2400;
+                respawn1 = 1500;
+                respawn2 = 1500;
+                respawn3 =1500;
+//                respawn4 = 500;
+                delete1 = 2000;
+                delete2 = 2000;
+                delete3 =2000;
+//                delete4 = 3000;
+
+            }else if(globalVairables.randomizer ==2){
+                spawn1 = 750;
+                spawn2 = 1400;
+                spawn3 = 0;
+//                spawn4 = 2400;
+                respawn1 = 1500;
+                respawn2 = 1500;
+                respawn3 =1500;
+//                respawn4 = 500;
+                delete1 = 2000;
+                delete2 = 2000;
+                delete3 =2000;
+//                delete4 = 3000;
+
+            }else if(globalVairables.randomizer ==3){
+                spawn1 = 1400; //2400
+                spawn2 = 0;
+                spawn3 =750;
+//                spawn4 = 1400;
+                respawn1 = 1500; //500
+                respawn2 = 1500;
+                respawn3 =1500;
+//                respawn4 = 1500;
+                delete1 = 2000; // 3000
+                delete2 = 2000;
+                delete3 =2000;
+//              delete4 = 2000;
+
+            }else if(globalVairables.randomizer ==4){
+                spawn1 = 1400;
+                spawn2 = 750; // 2400
+                spawn3 =0;
+//                spawn4 = 0; 2400
+                respawn1 = 1500;
+                respawn2 = 1500; //500
+                respawn3 =1500;
+//                respawn4 = 1500; 2400
+                delete1 = 2000;
+                delete2 = 2000; // 3000
+                delete3 =2000;
+//                delete4 = 2000;
+            }
+
             super.paint(graphics);
             Graphics2D graphics2D = (Graphics2D) graphics;
-            if (runner.characterDY == -1 && !jump) {
-                jump = true;
+            if (runner.characterDY == -1 && !globalVairables.jump) {
+                globalVairables.jump = true;
                 animator = new Thread(this);
                 animator.start();
             }
@@ -100,30 +179,71 @@ public class Background extends JPanel implements ActionListener, Runnable{
             }
 
             //enemy spawning
-            if ((log.enemyX == 50) && (yPos == log.getY() || yPos > 75)) {
+            if ((log.enemyX+spawn1 == 50) && (yPos == log.getY() || yPos > 75)) {
                 gameOn=false;
                 gameEnd=true;
+
+                log.enemyX = 1500+ spawn1;
+                log2.enemyX += 1500+spawn2;
+                log3.enemyX += 1500+spawn3;
+                log4.enemyX += 1500+spawn4;
             }
 
-            if((log2.enemyX == 50) && (yPos == log2.getY() || yPos > 75)) {
+            if((log2.enemyX+spawn2 == 50) && (yPos == log2.getY() || yPos > 75)) {
                 gameOn=false;
                 gameEnd=true;
+                log.enemyX = 1500+ spawn1;
+                log2.enemyX += 1500+spawn2;
+                log3.enemyX += 1500+spawn3;
+                log4.enemyX += 1500+spawn4;
             }
 
-            if (log.getX() < -2000) {
-                log.enemyX = 2500;
+            if((log3.enemyX+spawn3 == 50)&(!globalVairables.crouch)){
+                gameOn=false;
+                gameEnd=true;
+                log.enemyX = 1500+ spawn1;
+                log2.enemyX += 1500+spawn2;
+                log3.enemyX += 1500+spawn3;
+                log4.enemyX += 1500+spawn4;
+            }
+//            if((log4.enemyX+spawn4 == 50)&(!globalVairables.crouch)){
+//                gameOn=false;
+//                gameEnd=true;
+//                log.enemyX = 1500+ spawn1;
+//                log2.enemyX += 1500+spawn2;
+//                log3.enemyX += 1500+spawn3;
+//                log4.enemyX += 1500+spawn4;
+//            }
+
+            if (log.getX() < -delete1) {
+                log.enemyX = respawn1;
             }
 
-            if (log2.getX() < -2000) {
+            if (log2.getX() < -delete2) {
+                log2.enemyX = respawn2;
 
-                log2.enemyX = 3500;
             }
+
+            if(log3.getX() < -delete3){
+                log3.enemyX = respawn3;
+
+            }
+
+//            if( log4.getX() < -delete4){
+//                log4.enemyX = respawn4;
+//
+//            }
 
             log.scrollMove();
             log2.scrollMove();
-            graphics2D.drawImage(log.getLogEnemy(), log.enemyX, log.getY(), null);
-            graphics2D.drawImage(log2.getLogEnemy(), log2.enemyX, log.getY(), null);
-            graphics2D.drawImage(log2.getLogEnemy(), log2.enemyX+150, log.getY(), null);
+            log3.scrollMove();
+ //           log4.scrollMove();
+
+            graphics2D.drawImage(log.getLogEnemy(), log.enemyX + spawn1, log.getY(), null);
+            graphics2D.drawImage(log2.getDoubleLogEnemy(), log2.enemyX + spawn2, log.getY(), null);
+            graphics2D.drawImage(log3.getSideLogEnemy(),log3.enemyX + spawn3,150,null);
+//            graphics2D.drawImage(log4.getSideLogEnemy(),log4.enemyX+ spawn4,150,null);
+
 
 
 
@@ -135,16 +255,30 @@ public class Background extends JPanel implements ActionListener, Runnable{
 //            }
             runner.scrollMove();
 
-            if(globalVairables.characterSwitch==1) {
+            if(globalVairables.characterSwitch==1 && !globalVairables.crouch) {
                 graphics2D.drawImage(runner.getAmyOneImage(), 50, yPos, null);
-            }else if(globalVairables.characterSwitch==2){
+            }else if(globalVairables.characterSwitch==2 && !globalVairables.crouch){
                 graphics2D.drawImage(runner.getJacksonOneImage(), 50, yPos, null);
+            }
+
+            if(globalVairables.characterSwitch==1 && globalVairables.crouch) {
+                graphics2D.drawImage(runner.getAmyOneImage(), 50, yPos+100, 100,125,null);
+            }else if(globalVairables.characterSwitch==2 && globalVairables.crouch){
+                graphics2D.drawImage(runner.getJacksonOneImage(), 50, yPos+100, 100,125,null);
             }
 
             highScoretwo++;
             if (highScoretwo % 15 == 0) {
                 highScore += 1;
             }
+            if(highScore%45==0){
+                System.out.println(globalVairables.randomizer);
+                globalVairables.randomizer = (int) (Math.random()*4);
+                if(globalVairables.randomizer ==0){
+                    globalVairables.randomizer=1;
+                }
+            }
+
             graphics2D.setFont(new Font("Dialog", Font.BOLD, 50));
             graphics2D.drawString(Integer.toString(highScore), 50, 50);
         }
@@ -169,6 +303,8 @@ public class Background extends JPanel implements ActionListener, Runnable{
         runner.move();
         log.move();
         log2.move();
+        log3.move();
+        log4.move();
         repaint();
     }
 
@@ -179,10 +315,10 @@ public class Background extends JPanel implements ActionListener, Runnable{
         long sleep;
         beforeTime = System.currentTimeMillis();
 
-        while(!jumpFinish){
+        while(!globalVairables.jumpFinish){
             yCycle();
             timeDiff = System.currentTimeMillis()-beforeTime;
-            sleep = 8-timeDiff;
+            sleep = 10-timeDiff;
             if(sleep <0){
                 sleep =2;
             }
@@ -193,23 +329,23 @@ public class Background extends JPanel implements ActionListener, Runnable{
             }
             beforeTime = System.currentTimeMillis();
         }
-        jumpFinish=false;
-        jumpPeak=false;
-        jump=false;
+        globalVairables.jumpFinish=false;
+        globalVairables.jumpPeak=false;
+        globalVairables.jump=false;
     }
 
     public void yCycle(){
-        if (!jumpPeak){
-            yPos-=3;
+        if (!globalVairables.jumpPeak){
+            yPos-=5;
         }
-        if(yPos <= 50){
-            jumpPeak = true;
+        if(yPos <= 25){
+            globalVairables.jumpPeak = true;
         }
 
-        if(jumpPeak && yPos <= 200){
-            yPos+=2;
+        if(globalVairables.jumpPeak && yPos <= 200){
+            yPos+=5;
             if(yPos==200){
-                jumpFinish=true;
+                globalVairables.jumpFinish=true;
             }
         }
 

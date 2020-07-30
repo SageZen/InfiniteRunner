@@ -10,16 +10,14 @@ public class Runner {
     int characterDX;
     int characterDY;
     int backgroundXOne;
-    boolean jumping = false;
-    long jumpTime;
 
     int backgroundXTwo;
     Image jacksonOne;
     Image amyOne;
 
     public Runner(){
-        ImageIcon jacksonIcon1 = new ImageIcon("D:\\SteppingStones2020\\InfiniteRunnerTest\\src\\infiniteRunnerGame\\images\\smallJacksonXuRun.png");
-        ImageIcon amyIcon1 = new ImageIcon("D:\\SteppingStones2020\\InfiniteRunnerTest\\src\\infiniteRunnerGame\\images\\smallAmyHuangRun.png");
+        ImageIcon jacksonIcon1 = new ImageIcon(globalVairables.workingDir+"\\smallJacksonXuRun.png");
+        ImageIcon amyIcon1 = new ImageIcon(globalVairables.workingDir+"\\smallAmyHuangRun.png");
 
         jacksonOne = jacksonIcon1.getImage();
         amyOne = amyIcon1.getImage();
@@ -62,8 +60,9 @@ public class Runner {
         if(key== KeyEvent.VK_SPACE){
             characterDY = -1;
         }
-        if(key==KeyEvent.VK_S){
-            //
+        if(key==KeyEvent.VK_S || key == KeyEvent.VK_DOWN){
+            globalVairables.crouch = true;
+            globalVairables.jump=true;
         }
     }
 
@@ -72,6 +71,11 @@ public class Runner {
 
         if(key== KeyEvent.VK_SPACE){
             characterDY = 0;
+        }
+        if(key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN){
+            globalVairables.crouch = false;
+            globalVairables.jump=false;
+
         }
     }
 }

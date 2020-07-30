@@ -21,6 +21,9 @@ public class Main {
 
     public static void main(String[] args) {
         new Main();
+        String workingDir = System.getProperty("user.dir");
+        System.out.println(workingDir);
+
     }
 }
 
